@@ -4,7 +4,7 @@ Foundation do site de Ivan Claudio Fernandes, com foco em liderança de Platform
 
 ## Estado
 
-Estrutura bilíngue EN em `/` e PT-BR em `/pt-br/`, sem publicação. Todo conteúdo inicial está em draft, inclusive páginas institucionais. Portanto, o build de produção ainda não oferece uma home pública. A revisão visual e a aprovação dos textos pertencem à próxima fase. A configuração `robots = "noindex, nofollow"` deverá ser revisada antes do lançamento.
+Estrutura bilíngue EN em `/` e PT-BR em `/pt-br/`, sem publicação. Todo conteúdo inicial está em draft, inclusive páginas institucionais. Portanto, o build de produção ainda não oferece uma home pública. Os textos de Home e About foram aprovados editorialmente e integrados nos dois idiomas, com perfil nativo do Blowfish, headline, bio e descrições SEO. A revisão visual e a publicação continuam pendentes. A configuração `robots = "noindex, nofollow"` e o bloqueio de rastreamento em `layouts/robots.txt` deverão ser revisados antes do lançamento.
 
 URL pretendida: https://ivancl4udio.github.io/. Pages não foi ativado nesta fase. A branch local encontrada era `master`; o alvo de integração é `main`, sem migração realizada.
 

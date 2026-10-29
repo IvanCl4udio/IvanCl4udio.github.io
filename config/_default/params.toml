@@ -7,7 +7,7 @@ enableA11y = true
 # Foundation is not ready for indexing or publication.
 robots = "noindex, nofollow"
 [homepage]
-  layout = "page"
+  layout = "profile"
   showRecent = false
 [footer]
   showAppearanceSwitcher = true

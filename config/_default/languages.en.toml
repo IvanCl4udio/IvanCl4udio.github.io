@@ -6,3 +6,8 @@ title = "IvanCl4udio"
 [params]
   displayName = "EN"
   isoCode = "en"
+
+[params.author]
+  name = "Ivan Claudio Fernandes"
+  headline = "Technology & Engineering Leader | DevOps · Platform Engineering · SRE · Cloud Architecture · Generative AI"
+  bio = "Technology leader with 30+ years of experience in engineering, DevOps, cloud-native platforms and technical leadership."
