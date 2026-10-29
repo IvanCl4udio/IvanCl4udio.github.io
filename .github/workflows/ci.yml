@@ -1,0 +1,70 @@
+name: Validate Hugo
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      HUGO_VERSION: 0.167.0
+      GO_VERSION: 1.25.6
+      TZ: UTC
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v7.0.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: false
+      - name: Check Docker and CI versions match
+        shell: python
+        run: |
+          import os
+          import pathlib
+          import re
+          dockerfile = pathlib.Path("Dockerfile.dev").read_text()
+          for name in ("HUGO_VERSION", "GO_VERSION"):
+              match = re.search(rf"^ARG {name}=(.+)$", dockerfile, re.MULTILINE)
+              assert match and match.group(1) == os.environ[name], f"{name} differs between Docker and CI"
+      - name: Install verified Hugo Extended
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          release="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"
+          mkdir -p "$RUNNER_TEMP/hugo"
+          cd "$RUNNER_TEMP/hugo"
+          curl --fail --silent --show-error --location "$release/$archive" --output "$archive"
+          curl --fail --silent --show-error --location "$release/hugo_${HUGO_VERSION}_checksums.txt" --output checksums.txt
+          awk -v file="$archive" '$2 == file { print; found=1 } END { if (!found) exit 1 }' checksums.txt > selected-checksum.txt
+          sha256sum --check selected-checksum.txt
+          tar -xzf "$archive" hugo
+          echo "$RUNNER_TEMP/hugo" >> "$GITHUB_PATH"
+      - name: Verify dependencies and production build
+        run: |
+          hugo version
+          hugo mod get
+          go mod verify
+          git diff --exit-code -- go.mod go.sum
+          hugo --minify --environment production --panicOnWarning
+      - name: Confirm demonstration drafts are excluded
+        shell: bash
+        run: |
+          set -euo pipefail
+          for language in "" "pt-br/"; do
+            for section in articles projects; do
+              test ! -e "public/${language}${section}/foundation-example/index.html"
+            done
+          done
+      - name: Validate draft preview build
+        run: hugo --buildDrafts --destination "$RUNNER_TEMP/draft-preview" --panicOnWarning

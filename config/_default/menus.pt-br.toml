@@ -1,0 +1,24 @@
+[[main]]
+  name = "Início"
+  pageRef = "/"
+  weight = 10
+
+[[main]]
+  name = "Sobre"
+  pageRef = "/about"
+  weight = 20
+
+[[main]]
+  name = "Artigos"
+  pageRef = "/articles"
+  weight = 30
+
+[[main]]
+  name = "Projetos"
+  pageRef = "/projects"
+  weight = 40
+
+[[main]]
+  name = "Contato"
+  pageRef = "/contact"
+  weight = 50

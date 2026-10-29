@@ -1,0 +1,22 @@
+colorScheme = "blowfish"
+defaultAppearance = "light"
+autoSwitchAppearance = true
+enableSearch = false
+enableCodeCopy = true
+enableA11y = true
+# Foundation is not ready for indexing or publication.
+robots = "noindex, nofollow"
+[homepage]
+  layout = "page"
+  showRecent = false
+[footer]
+  showAppearanceSwitcher = true
+  showThemeAttribution = true
+[article]
+  showDate = true
+  showReadingTime = true
+  showDraftLabel = true
+  showViews = false
+  showLikes = false
+[languageRedirect]
+  enabled = false

@@ -1,0 +1,23 @@
+services:
+  hugo:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "127.0.0.1:1313:1313"
+    volumes:
+      - .:/site:ro
+      - hugo-cache:/cache
+    command:
+      - server
+      - --bind=0.0.0.0
+      - --port=1313
+      - --baseURL=http://localhost:1313/
+      - --buildDrafts
+      - --disableFastRender
+      - --renderToMemory
+      - --noBuildLock
+    init: true
+
+volumes:
+  hugo-cache:

@@ -1,0 +1,8 @@
+locale = "en"
+label = "English"
+contentDir = "content/en"
+weight = 1
+title = "IvanCl4udio"
+[params]
+  displayName = "EN"
+  isoCode = "en"
