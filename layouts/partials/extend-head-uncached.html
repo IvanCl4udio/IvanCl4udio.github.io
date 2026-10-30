@@ -1,0 +1,17 @@
+{{ $isCollection := and (eq .Kind "section") (in (slice "articles" "projects") .Section) }}
+{{ if or .IsHome (in (slice "about" "contact") .Layout) $isCollection }}
+  {{ $css := resources.Get "css/home.css" | minify | fingerprint "sha512" }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{ end }}
+{{ if eq .Layout "contact" }}
+  {{ $css := resources.Get "css/contact.css" | minify | fingerprint "sha512" }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{ end }}
+{{ if $isCollection }}
+  {{ $css := resources.Get "css/collections.css" | minify | fingerprint "sha512" }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{ end }}
+{{ if eq .Layout "about" }}
+  {{ $css := resources.Get "css/about.css" | minify | fingerprint "sha512" }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{ end }}

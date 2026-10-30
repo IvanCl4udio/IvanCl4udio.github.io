@@ -1,0 +1,83 @@
+/* Contact-only layout; palette, grid canvas, buttons and cards reuse home.css. */
+.executive-contact .contact-hero {
+  padding-bottom:2.5rem;
+}
+.executive-contact .contact-intro {
+  margin-top:1.75rem;
+  max-width:58ch;
+}
+.executive-contact .contact-art {
+  width:100%;
+  max-width:380px;
+  justify-self:center;
+  color:var(--exec-accent);
+}
+.executive-contact .contact-channels {
+  display:grid;
+  gap:1.25rem;
+  margin-block:2.5rem;
+}
+.executive-contact .contact-channel {
+  grid-column:auto;
+  grid-template-rows:none;
+  gap:1.5rem;
+  background:radial-gradient(ellipse at 100% 0,#3975c518,transparent 70%),var(--exec-panel);
+}
+.executive-contact .contact-channel-identity {
+  display:flex;
+  align-items:center;
+  gap:1.25rem;
+  min-width:0;
+}
+.executive-contact .contact-channel-identity > div {
+  min-width:0;
+}
+.executive-contact .exec-card-symbol {
+  margin:0;
+  flex-shrink:0;
+}
+.executive-contact h2 {
+  font-size:clamp(1.4rem,2.5vw,1.8rem);
+  line-height:1.3;
+  font-weight:650;
+  letter-spacing:-.025em;
+  margin:0 0 .5rem;
+}
+.executive-contact .contact-channel-address {
+  font-size:.85rem;
+  overflow-wrap:anywhere;
+}
+.executive-contact .contact-explore {
+  border-top:1px solid var(--exec-line);
+  padding-block:2.5rem 3.5rem;
+}
+.executive-contact .contact-explore .exec-section-heading {
+  margin-bottom:1.5rem;
+}
+@media(min-width:1024px) {
+  .executive-contact .contact-channel {
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:center;
+    padding:2rem;
+  }
+  .executive-contact .contact-explore {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:2rem;
+  }
+  .executive-contact .contact-explore .exec-section-heading {
+    margin:0;
+  }
+}
+@media(max-width:639px) {
+  .executive-contact .contact-art {
+    max-width:200px;
+  }
+  .executive-contact .contact-channel {
+    padding:1.25rem;
+  }
+  .executive-contact .contact-channel-identity {
+    gap:.85rem;
+  }
+}

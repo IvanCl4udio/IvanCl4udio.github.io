@@ -1,0 +1,16 @@
+{{ $channel := .channel }}
+{{ $url := urls.Parse .url }}
+<section class="exec-card contact-channel" aria-labelledby="channel-{{ $channel.key }}">
+  <div class="contact-channel-identity">
+    <span class="exec-card-symbol" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+        <circle cx="12" cy="7" r="3"/><path d="M6 21v-3a6 6 0 0 1 12 0v3M3 7a3 3 0 0 0 0 6m18-6a3 3 0 0 1 0 6"/>
+      </svg>
+    </span>
+    <div>
+      <h2 id="channel-{{ $channel.key }}">{{ $channel.name }}</h2>
+      <p class="contact-channel-address">{{ $url.Host }}{{ $url.Path }}</p>
+    </div>
+  </div>
+  <a class="exec-button exec-button-primary" href="{{ .url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $channel.cta }} ({{ i18n `contact_new_tab` }})">{{ $channel.cta }} <span aria-hidden="true">↗︎</span></a>
+</section>

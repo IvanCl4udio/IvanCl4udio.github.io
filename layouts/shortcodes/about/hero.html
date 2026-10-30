@@ -1,0 +1,9 @@
+<header class="exec-hero exec-about-hero">
+  <div class="exec-hero-copy">
+    <p class="exec-eyebrow">{{ site.Params.Author.name }}</p>
+    <h1 id="about-heading">{{ .Get "title" }}</h1>
+    <p class="exec-about-headline">{{ site.Params.Author.headline }}</p>
+    <div class="exec-prose exec-about-intro">{{ .Inner | markdownify }}</div>
+  </div>
+  {{ partial "home/system-art.html" . }}
+</header>

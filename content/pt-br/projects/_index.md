@@ -1,10 +1,10 @@
 +++
 title = "Projetos"
-description = "Rascunho editorial. Conteúdo pendente de aprovação."
+description = "Projetos, arquiteturas de referência e cases técnicos: contexto, decisões e compromissos de engenharia."
 draft = true
 translationKey = "projects"
 language = "pt-br"
 editorialReview = "pending"
 +++
 
-Rascunho editorial. Conteúdo pendente de aprovação.
+Projetos, arquiteturas de referência e cases técnicos: contexto, decisões e compromissos de engenharia.

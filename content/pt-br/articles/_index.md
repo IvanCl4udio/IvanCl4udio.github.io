@@ -1,10 +1,10 @@
 +++
 title = "Artigos"
-description = "Rascunho editorial. Conteúdo pendente de aprovação."
+description = "Perspectivas técnicas sobre DevOps, confiabilidade, plataformas cloud-native e automação responsável."
 draft = true
 translationKey = "articles"
 language = "pt-br"
 editorialReview = "pending"
 +++
 
-Rascunho editorial. Conteúdo pendente de aprovação.
+Perspectivas técnicas sobre DevOps, confiabilidade, plataformas cloud-native e automação responsável.

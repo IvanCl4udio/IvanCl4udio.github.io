@@ -1,0 +1,13 @@
+{{ define "main" }}
+  <article class="executive-home executive-collection collection-projects">
+    {{ partial "collections/hero.html" . }}
+    {{ $pages := (where .RegularPagesRecursive "Draft" false).ByDate.Reverse }}
+    {{ if $pages }}
+      <div class="collection-project-grid">
+        {{ range $pages }}{{ partial "collections/project-card.html" . }}{{ end }}
+      </div>
+    {{ else }}
+      {{ partial "collections/empty.html" . }}
+    {{ end }}
+  </article>
+{{ end }}

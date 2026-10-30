@@ -1,0 +1,12 @@
+<section class="exec-section" id="expertise" aria-labelledby="expertise-heading">
+  <div class="exec-section-heading"><span class="exec-index" aria-hidden="true">01 /</span><h2 id="expertise-heading">{{ .Page.Params.landing.expertiseTitle }}</h2></div>
+  <div class="exec-expertise-grid">
+    {{ range $index, $card := .Page.Params.landing.expertise }}
+      <article class="exec-card">
+        <span class="exec-card-symbol" aria-hidden="true">{{ partial "home/expertise-icon.html" $index }}</span>
+        <h3>{{ $card.title }}</h3>
+        <p>{{ $card.description }}</p>
+      </article>
+    {{ end }}
+  </div>
+</section>

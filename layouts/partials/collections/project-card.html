@@ -1,0 +1,13 @@
+<article class="exec-card collection-card collection-project-card">
+  <div class="collection-meta">
+    {{ with .Params.projectType }}
+      {{ $types := dict "personal" "project_personal" "reference" "project_reference" "professional" "project_professional" }}
+      <span class="collection-project-type">{{ with index $types . }}{{ i18n . }}{{ else }}{{ . }}{{ end }}</span>
+    {{ end }}
+    {{ with .Params.category }}<span>{{ . }}</span>{{ end }}
+  </div>
+  <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+  {{ with .Description | default (.Summary | plainify) }}<p>{{ . }}</p>{{ end }}
+  {{ with .Params.technologies }}{{ partial "collections/pills.html" . }}{{ end }}
+  <span class="collection-project-link" aria-hidden="true">{{ i18n "collection_project" }} ↗︎</span>
+</article>

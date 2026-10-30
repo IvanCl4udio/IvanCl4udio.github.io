@@ -1,0 +1,12 @@
+<article class="exec-card collection-card collection-article-card">
+  <div class="collection-meta">
+    {{ if not .Date.IsZero }}<time datetime="{{ .Date.Format `2006-01-02` }}">{{ time.Format ":date_medium" .Date }}</time>{{ end }}
+    {{ if gt .ReadingTime 0 }}<span>{{ i18n "collection_reading_time" .ReadingTime }}</span>{{ end }}
+  </div>
+  <div>
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    {{ with .Description | default (.Summary | plainify) }}<p>{{ . }}</p>{{ end }}
+    {{ with .Params.tags }}{{ partial "collections/pills.html" . }}{{ end }}
+  </div>
+  <span class="collection-card-arrow" aria-hidden="true">↗︎</span>
+</article>
