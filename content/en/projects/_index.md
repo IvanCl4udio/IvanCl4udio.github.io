@@ -1,10 +1,10 @@
 +++
 title = "Projects"
-description = "Editorial draft. Content pending approval."
+description = "Projects, reference architectures and technical case studies: context, decisions and engineering trade-offs."
 draft = true
 translationKey = "projects"
 language = "en"
 editorialReview = "pending"
 +++
 
-Editorial draft. Content pending approval.
+Projects, reference architectures and technical case studies: context, decisions and engineering trade-offs.

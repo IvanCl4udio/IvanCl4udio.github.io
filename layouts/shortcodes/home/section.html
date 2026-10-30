@@ -1,0 +1,16 @@
+{{ $kind := .Get "kind" }}
+{{ $copy := .Page.Params.landing }}
+<section class="exec-section exec-{{ $kind }}" id="{{ $kind }}" aria-labelledby="{{ $kind }}-heading">
+  <div class="exec-section-heading"><span class="exec-index" aria-hidden="true">{{ if eq $kind "background" }}02{{ else }}03{{ end }} /</span><h2 id="{{ $kind }}-heading">{{ if eq $kind "background" }}{{ $copy.backgroundTitle }}{{ else }}{{ $copy.exploreTitle }}{{ end }}</h2></div>
+  <div class="exec-section-body">
+    <div class="exec-prose">{{ .Inner | markdownify }}</div>
+    <nav class="exec-actions" aria-label="{{ if eq $kind `background` }}{{ $copy.backgroundTitle }}{{ else }}{{ $copy.exploreTitle }}{{ end }}">
+      {{ if eq $kind "background" }}
+        <a class="exec-text-link" href="{{ with site.GetPage `/about` }}{{ .RelPermalink }}{{ end }}">{{ $copy.aboutLabel }} <span aria-hidden="true">↗</span></a>
+      {{ else }}
+        <a class="exec-button exec-button-primary" href="{{ with site.GetPage `/articles` }}{{ .RelPermalink }}{{ end }}">{{ $copy.articlesLabel }} <span aria-hidden="true">↗</span></a>
+        <a class="exec-button" href="{{ with site.GetPage `/projects` }}{{ .RelPermalink }}{{ end }}">{{ $copy.projectsLabel }} <span aria-hidden="true">↗</span></a>
+      {{ end }}
+    </nav>
+  </div>
+</section>

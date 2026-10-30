@@ -1,0 +1,151 @@
+/* Institutional About layout. Shared tokens/components come from home.css. */
+.executive-about .exec-about-headline {
+  color:var(--exec-accent);
+  font-size:1rem;
+  line-height:1.8;
+  margin:1.25rem 0 1.75rem;
+  max-width:55ch;
+}
+.executive-about .exec-about-intro p:first-child {
+  color:var(--exec-ink);
+  font-size:1.2rem;
+  line-height:1.65;
+  margin-bottom:1.5rem;
+}
+.executive-about .exec-about-hero {
+  padding-bottom:2.5rem;
+}
+.executive-about .exec-about-body {
+  max-width:none;
+}
+.executive-about .exec-about-journey .exec-about-body {
+  position:relative;
+  display:grid;
+  gap:1rem;
+  padding-inline-start:1.5rem;
+  border-inline-start:1px solid var(--exec-line);
+}
+.executive-about .exec-about-journey p {
+  position:relative;
+  margin:0;
+  padding:1.5rem;
+  border:1px solid var(--exec-line);
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--exec-panel),var(--exec-bg));
+  transition:border-color .2s,box-shadow .2s;
+}
+.executive-about .exec-about-journey p::before {
+  content:"";
+  position:absolute;
+  top:1.9rem;
+  inset-inline-start:-1.85rem;
+  width:.6rem;
+  height:.6rem;
+  background:var(--exec-accent);
+  border:3px solid var(--exec-bg);
+  border-radius:50%;
+  box-sizing:content-box;
+}
+.executive-about .exec-about-leadership .exec-about-body {
+  display:grid;
+  gap:1.5rem;
+}
+.executive-about .exec-about-leadership p {
+  margin:0;
+}
+.executive-about .exec-about-leadership p:first-child {
+  color:var(--exec-ink);
+  font-size:1.15rem;
+  line-height:1.8;
+  padding-inline-start:1.25rem;
+  border-inline-start:2px solid var(--exec-accent);
+}
+.executive-about .exec-about-approach {
+  background:radial-gradient(ellipse at 100% 0,#3975c518,transparent 65%),var(--exec-panel);
+  padding:2rem 1.5rem;
+  margin-block:2rem;
+  border:1px solid var(--exec-line);
+  border-radius:12px;
+}
+.executive-about .exec-about-approach p:first-child {
+  color:var(--exec-ink);
+  font-size:clamp(1.5rem,2.5vw,2rem);
+  line-height:1.4;
+  letter-spacing:-.025em;
+  font-weight:600;
+  max-width:36ch;
+  margin-bottom:1.75rem;
+}
+.executive-about .exec-about-sharing {
+  border-bottom:0;
+}
+.executive-about .exec-about-sharing .exec-actions {
+  margin-top:2rem;
+}
+@media(min-width:1024px) {
+  .executive-about .exec-about-hero {
+    grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);
+    column-gap:3rem;
+  }
+  .executive-about .exec-about-hero .exec-system {
+    max-width:430px;
+  }
+  .executive-about .exec-about-journey,
+  .executive-about .exec-about-sharing {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.75fr);
+    gap:1.5rem 3rem;
+  }
+  .executive-about .exec-about-sharing .exec-actions {
+    grid-column:2;
+    margin-top:0;
+  }
+  .executive-about .exec-about-leadership .exec-about-body {
+    grid-template-columns:1fr 1fr;
+    column-gap:3rem;
+  }
+  .executive-about .exec-about-leadership p:first-child {
+    grid-row:span 2;
+    padding-inline-start:1.5rem;
+    max-width:46ch;
+  }
+  .executive-about .exec-about-approach {
+    padding:3rem;
+  }
+  .executive-about .exec-about-approach .exec-about-body {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.25rem 3rem;
+  }
+  .executive-about .exec-about-approach p {
+    margin:0;
+  }
+  .executive-about .exec-about-approach p:first-child {
+    grid-row:span 3;
+    align-self:center;
+    margin:0;
+  }
+}
+@media(max-width:639px) {
+  .executive-about .exec-about-headline {
+    font-size:.85rem;
+  }
+  .executive-about .exec-about-intro p:first-child {
+    font-size:1.1rem;
+  }
+  .executive-about .exec-about-hero .exec-system {
+    max-width:180px;
+  }
+  .executive-about .exec-about-journey p {
+    padding:1.15rem;
+  }
+  .executive-about .exec-about-approach {
+    padding:1.5rem;
+  }
+}
+@media(hover:hover) {
+  .executive-about .exec-about-journey p:hover {
+    border-color:var(--exec-accent);
+    box-shadow:0 8px 24px #1023390d;
+  }
+}

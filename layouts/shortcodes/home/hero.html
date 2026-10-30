@@ -1,0 +1,18 @@
+{{ $copy := .Page.Params.landing }}
+<header class="exec-hero">
+  <div class="exec-hero-copy">
+    <p class="exec-eyebrow">{{ site.Params.Author.name }}</p>
+    <h1>{{ $copy.leadershipTitle }}</h1>
+    <p class="exec-domains">{{ index (split site.Params.Author.headline " | ") 1 }}</p>
+    <div class="exec-intro">{{ .Inner | markdownify }}</div>
+    <nav class="exec-actions" aria-label="{{ $copy.exploreTitle }}">
+      <a class="exec-button exec-button-primary" href="#explore">{{ $copy.primaryLabel }} <span aria-hidden="true">↗︎</span></a>
+      <a class="exec-button" href="{{ with site.GetPage `/about` }}{{ .RelPermalink }}{{ end }}">{{ $copy.aboutLabel }} <span aria-hidden="true">→</span></a>
+    </nav>
+    {{ with site.Params.contact.linkedin }}
+      <a class="exec-contact-link" href="{{ . }}" rel="me">{{ if eq $.Page.Language.Lang "pt-br" }}Vamos conversar no LinkedIn{{ else }}Connect on LinkedIn{{ end }} <span aria-hidden="true">↗︎</span></a>
+    {{ end }}
+  </div>
+  {{ partial "home/system-art.html" . }}
+  <a class="exec-scroll" href="#expertise"><span aria-hidden="true">↓</span> {{ $copy.expertiseLabel }}</a>
+</header>

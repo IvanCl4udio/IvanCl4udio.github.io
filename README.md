@@ -94,3 +94,62 @@ Builds locais com e sem drafts e verificação de integridade do módulo devem p
 ### Validação do ambiente Docker
 
 Validado em Linux amd64: `make dev`, `make version`, `make build`, configuração Compose, Go 1.25.6, integridade do módulo e ausência das demonstrações draft no build de produção. As homes EN/PT-BR e um draft responderam por HTTP; uma alteração temporária foi reconstruída automaticamente e depois restaurada. O script de live reload estava presente no HTML. Atualização visual em navegador e execução remota do CI ainda não foram verificadas.
+
+### Home Executive Tech
+
+A Home usa `homepage.layout = "executive"`, pelo ponto de extensão nativo do Blowfish, sem modificar o módulo. `layouts/partials/home/executive.html` renderiza o Markdown; os shortcodes `home/hero`, `home/expertise` e `home/section` organizam a composição. Os textos e rótulos traduzidos permanecem em cada `content/<idioma>/_index.md`; as cinco especialidades ficam no front matter `landing.expertise`.
+
+`assets/css/home.css` é carregado somente nas Homes pelo hook `extend-head-uncached.html`. O desenho abstrato em SVG é decorativo e não representa infraestrutura real. Não há novas fontes, serviços externos ou JavaScript. Dark é a aparência inicial; o seletor nativo permite escolher light. Preferências já salvas pelo visitante continuam sendo respeitadas.
+
+O redesenho preserva drafts e bloqueio de indexação. CTAs apontam para páginas locais existentes e para o LinkedIn confirmado pelo proprietário; artigos e projetos ainda incluem conteúdo de demonstração na prévia com drafts, sem representar cases publicados. Para revisar: `make dev`, abrir ambos os idiomas em desktop e mobile e conferir também a aparência clara.
+
+Refinamento visual: composição de até 1168px úteis no desktop, ilustração de até 500px e textos com largura limitada. Em telas estreitas, cards em coluna única e ilustração de 210px. Os ícones das especialidades são SVG locais em `layouts/partials/home/expertise-icon.html`; cards informativos não recebem foco artificial. O Hero oferece um link de contato configurado em `params.contact.linkedin`: https://www.linkedin.com/in/ivanclaudio/, confirmado pelo proprietário para ambas as versões de idioma. Essa confirmação não autoriza o lançamento do site.
+
+### About / Sobre Executive Tech
+
+As duas páginas `about.md` usam `layout = "about"`, resolvido por `layouts/_default/about.html`. Esse template define somente o bloco principal e preserva o template base, a navegação, o seletor de idioma e o head de SEO do Blowfish. Metadados visuais de artigo, autoria duplicada e paginação não são renderizados. `draft = true`, `description`, `translationKey` e o bloqueio de indexação permanecem ativos.
+
+Os textos aprovados continuam integralmente nos arquivos Markdown, sem cópias nos templates. O shortcode `about/hero` recebe o título da introdução; `about/section` recebe `title`, `kind` e `number`. Os tipos são `journey`, `leadership`, `approach` e `sharing`. A primeira frase/parágrafo de `leadership` e `approach` recebe destaque visual; cada parágrafo de `journey` forma um card. A disposição não atribui datas à trajetória. O CTA final utiliza a página de artigos do idioma atual.
+
+O hook `extend-head-uncached.html` carrega os estilos da Home também no About para reutilizar paleta, largura, botões, tipografia e ilustração. `assets/css/about.css` contém apenas ajustes com escopo `.executive-about`; os artigos técnicos não carregam esses estilos. Nenhum módulo do tema foi alterado e não foram adicionadas dependências ou JavaScript.
+
+Prévia com drafts: http://localhost:1313/about/ e http://localhost:1313/pt-br/about/. Revisar ambos os idiomas em 375px, 430px, 1440px e 1920px, nos temas claro e escuro. A revisão visual local não autoriza publicação.
+
+### Articles e Projects — listagens Executive Tech
+
+`layouts/articles/list.html` e `layouts/projects/list.html` são exclusivos das listagens. Os artigos e projetos individuais continuam com os templates do Blowfish. Partials em `layouts/partials/collections/` compartilham Hero, estado vazio e etiquetas; cada tipo de conteúdo tem seu card próprio. A paleta e os componentes vêm de `home.css`; somente as seções carregam `assets/css/collections.css`. Nenhuma alteração visual foi feita em Home ou About.
+
+As introduções editáveis e descrições SEO estão em `content/<idioma>/articles/_index.md` e `content/<idioma>/projects/_index.md`. Rótulos e estados vazios estão em `i18n/en.toml` e `i18n/pt-br.toml`. As quatro seções mantêm `draft = true` e `editorialReview = "pending"`; sua descrição anterior era um placeholder e foi substituída por uma descrição temática. Isso não constitui aprovação editorial nem autorização de lançamento. Hoje, o build de produção continua excluindo essas páginas de seção.
+
+As listagens incluem automaticamente páginas regulares da seção e subseções, ordenadas pela data mais recente. O filtro explícito `Draft = false` exclui demonstrações mesmo na prévia com `--buildDrafts`; páginas futuras também seguem a configuração Hugo `buildFuture = false`. A prévia permite abrir drafts diretamente pela URL, mas não os anuncia nos cards. Não há grupos anuais vazios nem cards de exemplo. Depois da autorização para tornar uma seção pública, ela mostra o estado vazio enquanto não houver itens publicáveis.
+
+Para adicionar conteúdo, use os archetypes existentes:
+
+```bash
+hugo new content --kind articles content/en/articles/my-article.md
+hugo new content --kind projects content/en/projects/my-project.md
+```
+
+Edite o Markdown, `title`, `description`, data editorial real e `tags`. O resumo do card utiliza `description`, com fallback para o resumo do Hugo. Articles mostra data e tempo de leitura apenas quando disponíveis. Nos projetos, os campos opcionais são:
+
+```toml
+projectType = "personal"
+category = ""
+technologies = []
+```
+
+Escolha `projectType = "personal"` (projeto pessoal), `"reference"` (arquitetura de referência) ou `"professional"` (case profissional) conforme a natureza real e aprovada do trabalho. `category` é um texto editorial opcional; `technologies` é uma lista de nomes. Ausência desses campos não gera afirmações automáticas. Os rótulos dos três tipos são traduzidos, sem traduzir automaticamente títulos, resumos ou conteúdo.
+
+Para PT-BR, crie o arquivo correspondente em `content/pt-br/` somente quando houver tradução revisada e use a mesma `translationKey` nos dois arquivos. Mantenha `draft = true` até a aprovação humana; após aprovação específica para publicação, `draft = false` torna o item elegível para o card no próximo build. Não remova a proteção das seções ou de indexação por esse motivo.
+
+Validação desta entrega: builds de desenvolvimento e produção, fixtures isoladas em `/tmp` para zero/um/três itens nos dois idiomas (incluindo metadados ausentes, drafts e itens futuros), comparação de regressão com Home/About/artigos e Firefox em 375/430/1440/1920px. As fixtures não foram adicionadas ao workspace nem aprovadas/publicadas. Prévia: `/articles/`, `/projects/`, `/pt-br/articles/` e `/pt-br/projects/`.
+
+### Contact / Contato Executive Tech
+
+`content/en/contact.md` e `content/pt-br/contact.md` usam `layout = "contact"`, com template exclusivo em `layouts/_default/contact.html`. A introdução fica em Markdown e o título do Hero em `contact.headline`. O template não renderiza metadados de artigo, autoria duplicada, badge Draft ou paginação. Os títulos de navegação, `translationKey`, idiomas e URLs permanecem; descrições SEO substituem os placeholders. `draft = true`, revisão editorial pendente e bloqueio de indexação continuam ativos.
+
+O card do LinkedIn utiliza a URL já confirmada em `config/_default/params.toml`, `contact.linkedin`. Nome e CTA estão em `[[contact.channels]]` de cada idioma. Para adicionar outro canal aprovado, configure uma nova chave de URL em `params.contact` e acrescente um registro com `key`, `name` e `cta` nas páginas; não há necessidade de alterar o layout. Os canais são renderizados pelo partial `contact/channel.html`. Links abrem em nova aba com `noopener noreferrer`, e o nome acessível informa esse comportamento no idioma ativo.
+
+`home.css` fornece os componentes compartilhados; `assets/css/contact.css` é carregado somente em Contact e usa escopo `.executive-contact`. O SVG decorativo local está em `layouts/partials/contact/connections.html`; não representa uma rede real. Os links secundários são resolvidos com `site.GetPage` para Projects e Articles no idioma ativo. Não foram adicionados formulário, backend, JavaScript ou serviços externos.
+
+Prévia com drafts: http://localhost:1313/contact/ e http://localhost:1313/pt-br/contact/. Validado no Firefox em 375/430/1440/1920px, com revisão clara/escura, foco por teclado e contraste da paleta. Builds de prévia/produção passaram sem avisos; Contact permanece excluído da saída de produção. As páginas já aprovadas foram comparadas à baseline, sem diferenças além de linhas em branco no head. O LinkedIn bloqueou a consulta automatizada ao perfil (status 999); a URL confirmada e os atributos do link foram conferidos no HTML, sem afirmar validação remota do destino.

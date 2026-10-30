@@ -1,0 +1,42 @@
+[articles_eyebrow]
+other = "Engineering perspectives"
+
+[projects_eyebrow]
+other = "Architecture & engineering"
+
+[articles_empty_title]
+other = "The next perspective starts here."
+
+[articles_empty_body]
+other = "No articles have been published yet."
+
+[projects_empty_title]
+other = "Room for meaningful engineering."
+
+[projects_empty_body]
+other = "No projects or case studies have been published yet."
+
+[collection_about]
+other = "About my background"
+
+[collection_read]
+other = "Read article"
+
+[collection_project]
+other = "Explore project"
+
+[project_personal]
+other = "Personal project"
+
+[project_reference]
+other = "Reference architecture"
+
+[project_professional]
+other = "Professional case study"
+
+[collection_reading_time]
+one = "{{ .Count }} min read"
+other = "{{ .Count }} min read"
+
+[contact_new_tab]
+other = "opens in a new tab"

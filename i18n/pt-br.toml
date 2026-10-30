@@ -1,0 +1,42 @@
+[articles_eyebrow]
+other = "Perspectivas de engenharia"
+
+[projects_eyebrow]
+other = "Arquitetura e engenharia"
+
+[articles_empty_title]
+other = "A próxima perspectiva começa aqui."
+
+[articles_empty_body]
+other = "Nenhum artigo publicado até o momento."
+
+[projects_empty_title]
+other = "Espaço para engenharia com propósito."
+
+[projects_empty_body]
+other = "Nenhum projeto ou case publicado até o momento."
+
+[collection_about]
+other = "Conheça minha trajetória"
+
+[collection_read]
+other = "Ler artigo"
+
+[collection_project]
+other = "Explorar projeto"
+
+[project_personal]
+other = "Projeto pessoal"
+
+[project_reference]
+other = "Arquitetura de referência"
+
+[project_professional]
+other = "Case profissional"
+
+[collection_reading_time]
+one = "{{ .Count }} min de leitura"
+other = "{{ .Count }} min de leitura"
+
+[contact_new_tab]
+other = "abre em nova aba"

@@ -1,0 +1,15 @@
+{{ $kind := .Get "kind" }}
+<section class="exec-section exec-about-{{ $kind }}" aria-labelledby="{{ $kind }}-heading">
+  <div class="exec-section-heading">
+    <span class="exec-index" aria-hidden="true">{{ .Get "number" }} /</span>
+    <h2 id="{{ $kind }}-heading">{{ .Get "title" }}</h2>
+  </div>
+  <div class="exec-prose exec-about-body">{{ .Inner | markdownify }}</div>
+  {{ if eq $kind "sharing" }}
+    {{ with site.GetPage "/articles" }}
+      <nav class="exec-actions" aria-label="{{ .Title }}">
+        <a class="exec-button exec-button-primary" href="{{ .RelPermalink }}">{{ .Title }} <span aria-hidden="true">↗︎</span></a>
+      </nav>
+    {{ end }}
+  {{ end }}
+</section>

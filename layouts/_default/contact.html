@@ -1,0 +1,33 @@
+{{ define "main" }}
+  <article class="executive-home executive-contact" aria-labelledby="contact-heading">
+    <header class="exec-hero contact-hero">
+      <div>
+        <p class="exec-eyebrow">{{ .Title }}</p>
+        <h1 id="contact-heading">{{ .Params.contact.headline }}</h1>
+        <div class="exec-prose contact-intro">{{ .Content }}</div>
+      </div>
+      {{ partial "contact/connections.html" . }}
+    </header>
+    <div class="contact-channels">
+      {{ range .Params.contact.channels }}
+        {{ $channel := . }}
+        {{ with $url := index site.Params.contact .key }}
+          {{ partial "contact/channel.html" (dict "channel" $channel "url" $url) }}
+        {{ end }}
+      {{ end }}
+    </div>
+    <nav class="contact-explore" aria-labelledby="contact-explore-heading">
+      <div class="exec-section-heading">
+        <span class="exec-index" aria-hidden="true">02 /</span>
+        <h2 id="contact-explore-heading">{{ site.Home.Params.landing.exploreTitle }}</h2>
+      </div>
+      <div class="exec-actions">
+        {{ range slice "/projects" "/articles" }}
+          {{ with site.GetPage . }}
+            <a class="exec-button" href="{{ .RelPermalink }}">{{ .Title }} <span aria-hidden="true">↗︎</span></a>
+          {{ end }}
+        {{ end }}
+      </div>
+    </nav>
+  </article>
+{{ end }}

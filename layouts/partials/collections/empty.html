@@ -1,0 +1,10 @@
+<section class="collection-empty" aria-labelledby="empty-heading">
+  <span class="exec-index" aria-hidden="true">01 /</span>
+  <div>
+    <h2 id="empty-heading">{{ i18n (printf "%s_empty_title" .Section) }}</h2>
+    <p>{{ i18n (printf "%s_empty_body" .Section) }}</p>
+    {{ with site.GetPage "/about" }}
+      <a class="exec-button" href="{{ .RelPermalink }}">{{ i18n "collection_about" }} <span aria-hidden="true">→</span></a>
+    {{ end }}
+  </div>
+</section>
