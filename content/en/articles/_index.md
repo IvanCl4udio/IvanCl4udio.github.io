@@ -1,10 +1,10 @@
 +++
 title = "Articles"
 description = "Technical perspectives on DevOps, reliability, cloud-native platforms and responsible automation."
-draft = true
+draft = false
 translationKey = "articles"
 language = "en"
-editorialReview = "pending"
+editorialReview = "approved"
 +++
 
 Technical perspectives on DevOps, reliability, cloud-native platforms and responsible automation.

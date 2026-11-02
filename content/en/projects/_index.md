@@ -1,10 +1,10 @@
 +++
 title = "Projects"
 description = "Projects, reference architectures and technical case studies: context, decisions and engineering trade-offs."
-draft = true
+draft = false
 translationKey = "projects"
 language = "en"
-editorialReview = "pending"
+editorialReview = "approved"
 +++
 
 Projects, reference architectures and technical case studies: context, decisions and engineering trade-offs.
