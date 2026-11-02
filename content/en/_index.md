@@ -1,7 +1,7 @@
 +++
 title = "Home"
 description = "Technology and engineering leadership, DevOps, SRE, cloud architecture, platform engineering and generative AI."
-draft = true
+draft = false
 translationKey = "home"
 language = "en"
 editorialReview = "approved"

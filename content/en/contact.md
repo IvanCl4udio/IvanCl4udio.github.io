@@ -1,10 +1,10 @@
 +++
 title = "Contact"
 description = "Professional conversations about engineering leadership, DevOps, platform engineering, cloud architecture and AI."
-draft = true
+draft = false
 translationKey = "contact"
 language = "en"
-editorialReview = "pending"
+editorialReview = "approved"
 layout = "contact"
 showDate = false
 showReadingTime = false

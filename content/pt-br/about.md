@@ -1,7 +1,7 @@
 +++
 title = "Sobre"
 description = "Conheça a trajetória de Ivan Claudio Fernandes em engenharia de software, DevOps, tecnologias cloud-native e liderança em engenharia."
-draft = true
+draft = false
 translationKey = "about"
 language = "pt-br"
 editorialReview = "approved"

@@ -4,7 +4,7 @@ Foundation do site de Ivan Claudio Fernandes, com foco em liderança de Platform
 
 ## Estado
 
-Estrutura bilíngue EN em `/` e PT-BR em `/pt-br/`, sem publicação. Todo conteúdo inicial está em draft, inclusive páginas institucionais. Portanto, o build de produção ainda não oferece uma home pública. Os textos de Home e About foram aprovados editorialmente e integrados nos dois idiomas, com perfil nativo do Blowfish, headline, bio e descrições SEO. A revisão visual e a publicação continuam pendentes. A configuração `robots = "noindex, nofollow"` e o bloqueio de rastreamento em `layouts/robots.txt` deverão ser revisados antes do lançamento.
+Estrutura bilíngue EN em `/` e PT-BR em `/pt-br/`. As dez páginas institucionais foram aprovadas pelo proprietário e estão com `draft = false` e `editorialReview = "approved"`, elegíveis para o build de produção. Artigos do Medium e demonstrações continuam em draft. Essa liberação local não autoriza deploy. Os textos de Home e About foram aprovados editorialmente e integrados nos dois idiomas, com perfil nativo do Blowfish, headline, bio e descrições SEO. A revisão visual e a publicação continuam pendentes. A configuração `robots = "noindex, nofollow"` e o bloqueio de rastreamento em `layouts/robots.txt` deverão ser revisados antes do lançamento.
 
 URL pretendida: https://ivancl4udio.github.io/. Pages não foi ativado nesta fase. A branch local encontrada era `master`; o alvo de integração é `main`, sem migração realizada.
 
@@ -85,7 +85,40 @@ Os arquivos `foundation-example.md` são demonstrações, não relatos profissio
 
 `.github/workflows/ci.yml` valida dependências, build de produção, exclusão das demonstrações draft e build de prévia. Usa ações oficiais com versões fixadas e somente `contents: read`. Não publica artefatos nem faz deploy. Sua execução remota ainda não foi validada; exige push autorizado.
 
-Fluxo previsto: branch de trabalho → revisão humana → PR → checks → merge autorizado. Nenhum workflow de deploy ou `CNAME` foi criado. Preparar Pages é uma fase posterior; ativação, push, merge e deploy exigem autorização específica. Quando o workflow de produção estiver habilitado, push/merge em `main` poderá publicar automaticamente.
+Fluxo: branch de trabalho → revisão humana → PR → check obrigatório `build` → merge autorizado. O workflow **Validate Hugo** e seu job `build` permanecem inalterados.
+
+### Publicação manual preparada (ainda não executada)
+
+`.github/workflows/deploy.yml` executa somente por `workflow_dispatch` e aceita apenas `main`. Push/merge não dispara esse deploy. O job `package` reutiliza os passos do CI para instalar Hugo com checksum oficial, conferir versões Docker/CI, verificar módulos e gerar produção sem drafts em `public/`. Não usa Jekyll. `scripts/validate-pages-artifact.py` exige as dez páginas institucionais EN/PT-BR, rejeita fontes Markdown/configurações, arquivos ocultos, links simbólicos e demonstrações. Somente `./public` é enviado ao Pages. O job `deploy`, dependente do pacote validado, recebe exclusivamente `pages: write` e `id-token: write`, usa o ambiente `github-pages` e lê a configuração com `enablement: false`. A concorrência global `github-pages` impede deploys simultâneos sem cancelar um deploy em andamento.
+
+Actions oficiais conferidas nas releases: checkout v7.0.1, setup-go v7.0.0, configure-pages v6.0.0, upload-pages-artifact v5.0.0 e deploy-pages v5.0.1. As versões exatas estão fixadas no YAML; a instalação do Hugo segue a verificação SHA-256 já usada no CI.
+
+Diagnóstico local: só existia `ci.yml`, sem build/artefato/deploy Pages. Publicar Markdown é compatível com Pages configurado para uma branch/raiz; a origem remota atual **não foi verificada**. O workflow preparado corrige o caminho de publicação quando a origem for alterada pelo proprietário para GitHub Actions.
+
+**Páginas institucionais aprovadas:** os arquivos abaixo estão com `draft = false` e `editorialReview = "approved"` nos dois idiomas:
+
+| Página | EN | PT-BR |
+| --- | --- | --- |
+| Home | `content/en/_index.md` | `content/pt-br/_index.md` |
+| About | `content/en/about.md` | `content/pt-br/about.md` |
+| Articles | `content/en/articles/_index.md` | `content/pt-br/articles/_index.md` |
+| Projects | `content/en/projects/_index.md` | `content/pt-br/projects/_index.md` |
+| Contact | `content/en/contact.md` | `content/pt-br/contact.md` |
+
+Os quatro artigos importados do Medium e os quatro `foundation-example.md` permanecem draft. Somente as dez páginas institucionais foram liberadas para o build local de produção. `robots = "noindex, nofollow"` e `layouts/robots.txt` com `Disallow: /` permanecem ativos; publicação não implica indexação.
+
+Após autorização separada para cada ação externa:
+
+1. Revisar o diff, autorizar commit/push e abrir PR; aguardar `Validate Hugo / build`. Este preparo não altera o check obrigatório nem as proteções.
+2. Conferir a liberação institucional já aprovada, validar novamente a saída e autorizar separadamente o merge em `main`. O deploy continua manual após merge.
+3. Em **Settings → Pages → Build and deployment → Source**, selecionar **GitHub Actions**. Não selecionar publicação de uma branch/raiz. Essa mudança pode afetar a publicação antiga; exige autorização.
+4. Em **Settings → Environments → github-pages**, restringir deployment a `main` e configurar revisores obrigatórios se disponíveis. `workflow_dispatch` exige ação de alguém com permissão, mas não representa por si só uma segunda aprovação humana.
+5. Com autorização de publicação, abrir **Actions → Deploy Hugo to GitHub Pages → Run workflow**, selecionar **main** e executar. O workflow precisa existir na branch padrão para aparecer na interface. Aprovar o ambiente quando solicitado.
+6. Conferir os jobs, artefato e URL prevista `https://ivancl4udio.github.io/`, incluindo `/pt-br/` e páginas institucionais. Não há execução remota validada nesta entrega.
+
+O validador impede upload quando falta algum HTML institucional. Após a aprovação das dez páginas, o build de produção e a validação do artefato passam. Para repetir localmente com as ferramentas fixadas: `hugo --minify --environment production --panicOnWarning` e `python3 scripts/validate-pages-artifact.py public`.
+
+Validação local deste preparo: Hugo Extended 0.167.0 e Go 1.25.6 confirmados; produção e prévia passaram sem avisos usando o módulo em cache; `go mod verify` passou. Antes da aprovação institucional, as dez páginas faltavam na produção e o gate rejeitava o pacote, como esperado. Após a liberação aprovada, os dez HTMLs estão presentes e o gate passa. Na prévia, idiomas e 326 referências locais de páginas/assets foram conferidos sem destinos ausentes. Medium/demonstrações e Markdown de origem estão ausentes da produção. Fixtures temporárias confirmaram aceitação de um pacote completo e rejeição de home ausente, Markdown, configuração e symlink. YAML, permissões, igualdade dos passos de produção com o CI e `git diff --check` passaram. `hugo mod get` falhou por DNS no sandbox; a repetição fora dele ficou sem resposta e foi interrompida. Portanto, a consulta online de dependências e o CI remoto não estão validados. Não houve nova revisão visual em navegador ou Lighthouse; templates, CSS e conteúdo não mudaram.
 
 ## Verificações da Foundation
 
@@ -101,13 +134,13 @@ A Home usa `homepage.layout = "executive"`, pelo ponto de extensão nativo do Bl
 
 `assets/css/home.css` é carregado somente nas Homes pelo hook `extend-head-uncached.html`. O desenho abstrato em SVG é decorativo e não representa infraestrutura real. Não há novas fontes, serviços externos ou JavaScript. Dark é a aparência inicial; o seletor nativo permite escolher light. Preferências já salvas pelo visitante continuam sendo respeitadas.
 
-O redesenho preserva drafts e bloqueio de indexação. CTAs apontam para páginas locais existentes e para o LinkedIn confirmado pelo proprietário; artigos e projetos ainda incluem conteúdo de demonstração na prévia com drafts, sem representar cases publicados. Para revisar: `make dev`, abrir ambos os idiomas em desktop e mobile e conferir também a aparência clara.
+O redesenho preservou os drafts e o bloqueio de indexação. Após aprovação posterior, somente as páginas institucionais foram liberadas de draft; o bloqueio de indexação permanece. CTAs apontam para páginas locais existentes e para o LinkedIn confirmado pelo proprietário; artigos e projetos ainda incluem conteúdo de demonstração na prévia com drafts, sem representar cases publicados. Para revisar: `make dev`, abrir ambos os idiomas em desktop e mobile e conferir também a aparência clara.
 
 Refinamento visual: composição de até 1168px úteis no desktop, ilustração de até 500px e textos com largura limitada. Em telas estreitas, cards em coluna única e ilustração de 210px. Os ícones das especialidades são SVG locais em `layouts/partials/home/expertise-icon.html`; cards informativos não recebem foco artificial. O Hero oferece um link de contato configurado em `params.contact.linkedin`: https://www.linkedin.com/in/ivanclaudio/, confirmado pelo proprietário para ambas as versões de idioma. Essa confirmação não autoriza o lançamento do site.
 
 ### About / Sobre Executive Tech
 
-As duas páginas `about.md` usam `layout = "about"`, resolvido por `layouts/_default/about.html`. Esse template define somente o bloco principal e preserva o template base, a navegação, o seletor de idioma e o head de SEO do Blowfish. Metadados visuais de artigo, autoria duplicada e paginação não são renderizados. `draft = true`, `description`, `translationKey` e o bloqueio de indexação permanecem ativos.
+As duas páginas `about.md` usam `layout = "about"`, resolvido por `layouts/_default/about.html`. Esse template define somente o bloco principal e preserva o template base, a navegação, o seletor de idioma e o head de SEO do Blowfish. Metadados visuais de artigo, autoria duplicada e paginação não são renderizados. `description`, `translationKey` e o bloqueio de indexação permanecem; após aprovação do proprietário, About está com `draft = false`.
 
 Os textos aprovados continuam integralmente nos arquivos Markdown, sem cópias nos templates. O shortcode `about/hero` recebe o título da introdução; `about/section` recebe `title`, `kind` e `number`. Os tipos são `journey`, `leadership`, `approach` e `sharing`. A primeira frase/parágrafo de `leadership` e `approach` recebe destaque visual; cada parágrafo de `journey` forma um card. A disposição não atribui datas à trajetória. O CTA final utiliza a página de artigos do idioma atual.
 
@@ -119,7 +152,7 @@ Prévia com drafts: http://localhost:1313/about/ e http://localhost:1313/pt-br/a
 
 `layouts/articles/list.html` e `layouts/projects/list.html` são exclusivos das listagens. Os artigos e projetos individuais continuam com os templates do Blowfish. Partials em `layouts/partials/collections/` compartilham Hero, estado vazio e etiquetas; cada tipo de conteúdo tem seu card próprio. A paleta e os componentes vêm de `home.css`; somente as seções carregam `assets/css/collections.css`. Nenhuma alteração visual foi feita em Home ou About.
 
-As introduções editáveis e descrições SEO estão em `content/<idioma>/articles/_index.md` e `content/<idioma>/projects/_index.md`. Rótulos e estados vazios estão em `i18n/en.toml` e `i18n/pt-br.toml`. As quatro seções mantêm `draft = true` e `editorialReview = "pending"`; sua descrição anterior era um placeholder e foi substituída por uma descrição temática. Isso não constitui aprovação editorial nem autorização de lançamento. Hoje, o build de produção continua excluindo essas páginas de seção.
+As introduções editáveis e descrições SEO estão em `content/<idioma>/articles/_index.md` e `content/<idioma>/projects/_index.md`. Rótulos e estados vazios estão em `i18n/en.toml` e `i18n/pt-br.toml`. As quatro seções foram aprovadas pelo proprietário e agora usam `draft = false` e `editorialReview = "approved"`. O build de produção inclui essas listagens com estado vazio enquanto seus artigos e projetos permanecem em draft. Deploy exige autorização separada.
 
 As listagens incluem automaticamente páginas regulares da seção e subseções, ordenadas pela data mais recente. O filtro explícito `Draft = false` exclui demonstrações mesmo na prévia com `--buildDrafts`; páginas futuras também seguem a configuração Hugo `buildFuture = false`. A prévia permite abrir drafts diretamente pela URL, mas não os anuncia nos cards. Não há grupos anuais vazios nem cards de exemplo. Depois da autorização para tornar uma seção pública, ela mostra o estado vazio enquanto não houver itens publicáveis.
 
@@ -146,10 +179,10 @@ Validação desta entrega: builds de desenvolvimento e produção, fixtures isol
 
 ### Contact / Contato Executive Tech
 
-`content/en/contact.md` e `content/pt-br/contact.md` usam `layout = "contact"`, com template exclusivo em `layouts/_default/contact.html`. A introdução fica em Markdown e o título do Hero em `contact.headline`. O template não renderiza metadados de artigo, autoria duplicada, badge Draft ou paginação. Os títulos de navegação, `translationKey`, idiomas e URLs permanecem; descrições SEO substituem os placeholders. `draft = true`, revisão editorial pendente e bloqueio de indexação continuam ativos.
+`content/en/contact.md` e `content/pt-br/contact.md` usam `layout = "contact"`, com template exclusivo em `layouts/_default/contact.html`. A introdução fica em Markdown e o título do Hero em `contact.headline`. O template não renderiza metadados de artigo, autoria duplicada, badge Draft ou paginação. Os títulos de navegação, `translationKey`, idiomas e URLs permanecem; descrições SEO substituem os placeholders. Após aprovação do proprietário, Contact usa `draft = false` e `editorialReview = "approved"`; o bloqueio de indexação continua ativo.
 
 O card do LinkedIn utiliza a URL já confirmada em `config/_default/params.toml`, `contact.linkedin`. Nome e CTA estão em `[[contact.channels]]` de cada idioma. Para adicionar outro canal aprovado, configure uma nova chave de URL em `params.contact` e acrescente um registro com `key`, `name` e `cta` nas páginas; não há necessidade de alterar o layout. Os canais são renderizados pelo partial `contact/channel.html`. Links abrem em nova aba com `noopener noreferrer`, e o nome acessível informa esse comportamento no idioma ativo.
 
 `home.css` fornece os componentes compartilhados; `assets/css/contact.css` é carregado somente em Contact e usa escopo `.executive-contact`. O SVG decorativo local está em `layouts/partials/contact/connections.html`; não representa uma rede real. Os links secundários são resolvidos com `site.GetPage` para Projects e Articles no idioma ativo. Não foram adicionados formulário, backend, JavaScript ou serviços externos.
 
-Prévia com drafts: http://localhost:1313/contact/ e http://localhost:1313/pt-br/contact/. Validado no Firefox em 375/430/1440/1920px, com revisão clara/escura, foco por teclado e contraste da paleta. Builds de prévia/produção passaram sem avisos; Contact permanece excluído da saída de produção. As páginas já aprovadas foram comparadas à baseline, sem diferenças além de linhas em branco no head. O LinkedIn bloqueou a consulta automatizada ao perfil (status 999); a URL confirmada e os atributos do link foram conferidos no HTML, sem afirmar validação remota do destino.
+Prévia com drafts: http://localhost:1313/contact/ e http://localhost:1313/pt-br/contact/. Validado no Firefox em 375/430/1440/1920px, com revisão clara/escura, foco por teclado e contraste da paleta. Builds de prévia/produção passaram sem avisos; Após a aprovação posterior, Contact está incluído na saída de produção. As páginas já aprovadas foram comparadas à baseline, sem diferenças além de linhas em branco no head. O LinkedIn bloqueou a consulta automatizada ao perfil (status 999); a URL confirmada e os atributos do link foram conferidos no HTML, sem afirmar validação remota do destino.

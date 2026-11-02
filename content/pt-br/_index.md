@@ -1,7 +1,7 @@
 +++
 title = "Início"
 description = "Liderança em tecnologia, DevOps, SRE, arquitetura cloud, engenharia de plataformas e IA generativa."
-draft = true
+draft = false
 translationKey = "home"
 language = "pt-br"
 editorialReview = "approved"

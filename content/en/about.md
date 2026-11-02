@@ -1,7 +1,7 @@
 +++
 title = "About"
 description = "Explore Ivan Claudio Fernandes' career in software engineering, DevOps, cloud-native technologies and engineering leadership."
-draft = true
+draft = false
 translationKey = "about"
 language = "en"
 editorialReview = "approved"

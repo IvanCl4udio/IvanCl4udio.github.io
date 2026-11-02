@@ -1,10 +1,10 @@
 +++
 title = "Contato"
 description = "Conversas profissionais sobre liderança em engenharia, DevOps, engenharia de plataformas, arquitetura cloud e IA."
-draft = true
+draft = false
 translationKey = "contact"
 language = "pt-br"
-editorialReview = "pending"
+editorialReview = "approved"
 layout = "contact"
 showDate = false
 showReadingTime = false

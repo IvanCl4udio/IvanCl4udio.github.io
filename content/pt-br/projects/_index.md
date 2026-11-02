@@ -1,10 +1,10 @@
 +++
 title = "Projetos"
 description = "Projetos, arquiteturas de referência e cases técnicos: contexto, decisões e compromissos de engenharia."
-draft = true
+draft = false
 translationKey = "projects"
 language = "pt-br"
-editorialReview = "pending"
+editorialReview = "approved"
 +++
 
 Projetos, arquiteturas de referência e cases técnicos: contexto, decisões e compromissos de engenharia.
