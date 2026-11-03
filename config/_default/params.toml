@@ -4,8 +4,6 @@ autoSwitchAppearance = false
 enableSearch = false
 enableCodeCopy = true
 enableA11y = true
-# Foundation is not ready for indexing or publication.
-robots = "noindex, nofollow"
 [contact]
   linkedin = "https://www.linkedin.com/in/ivanclaudio/"
 [homepage]
