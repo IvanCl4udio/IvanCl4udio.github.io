@@ -66,5 +66,9 @@ jobs:
               test ! -e "public/${language}${section}/foundation-example/index.html"
             done
           done
+      - name: Validate publication artifact and SEO
+        run: |
+          python3 scripts/validate-pages-artifact.py public
+          python3 scripts/validate-seo.py public
       - name: Validate draft preview build
         run: hugo --buildDrafts --destination "$RUNNER_TEMP/draft-preview" --panicOnWarning

@@ -4,7 +4,7 @@ Foundation do site de Ivan Claudio Fernandes, com foco em liderança de Platform
 
 ## Estado
 
-Estrutura bilíngue EN em `/` e PT-BR em `/pt-br/`. As dez páginas institucionais foram aprovadas pelo proprietário e estão com `draft = false` e `editorialReview = "approved"`, elegíveis para o build de produção. Artigos do Medium e demonstrações continuam em draft. Essa liberação local não autoriza deploy. Os textos de Home e About foram aprovados editorialmente e integrados nos dois idiomas, com perfil nativo do Blowfish, headline, bio e descrições SEO. A revisão visual e a publicação continuam pendentes. A configuração `robots = "noindex, nofollow"` e o bloqueio de rastreamento em `layouts/robots.txt` deverão ser revisados antes do lançamento.
+Estrutura bilíngue EN em `/` e PT-BR em `/pt-br/`. As dez páginas institucionais foram aprovadas pelo proprietário e estão com `draft = false` e `editorialReview = "approved"`, elegíveis para o build de produção. Os quatro artigos do Medium foram aprovados; demonstrações continuam em draft. Essa liberação local não autoriza deploy. Os textos de Home e About foram aprovados editorialmente e integrados nos dois idiomas, com perfil nativo do Blowfish, headline, bio e descrições SEO. A revisão visual e a publicação continuam pendentes. A preparação de SEO atual permite rastreamento das páginas aprovadas; consulte a seção SEO e Search Console.
 
 URL pretendida: https://ivancl4udio.github.io/. Pages não foi ativado nesta fase. A branch local encontrada era `master`; o alvo de integração é `main`, sem migração realizada.
 
@@ -85,7 +85,7 @@ Os arquivos `foundation-example.md` são demonstrações, não relatos profissio
 
 `.github/workflows/ci.yml` valida dependências, build de produção, exclusão das demonstrações draft e build de prévia. Usa ações oficiais com versões fixadas e somente `contents: read`. Não publica artefatos nem faz deploy. Sua execução remota ainda não foi validada; exige push autorizado.
 
-Fluxo: branch de trabalho → revisão humana → PR → check obrigatório `build` → merge autorizado. O workflow **Validate Hugo** e seu job `build` permanecem inalterados.
+Fluxo: branch de trabalho → revisão humana → PR → check obrigatório `build` → merge autorizado. O nome **Validate Hugo** e o nome obrigatório do job `build` são preservados; o job também valida o artefato e SEO.
 
 ### Publicação manual preparada (ainda não executada)
 
@@ -105,7 +105,7 @@ Diagnóstico local: só existia `ci.yml`, sem build/artefato/deploy Pages. Publi
 | Projects | `content/en/projects/_index.md` | `content/pt-br/projects/_index.md` |
 | Contact | `content/en/contact.md` | `content/pt-br/contact.md` |
 
-Os quatro artigos importados do Medium e os quatro `foundation-example.md` permanecem draft. Somente as dez páginas institucionais foram liberadas para o build local de produção. `robots = "noindex, nofollow"` e `layouts/robots.txt` com `Disallow: /` permanecem ativos; publicação não implica indexação.
+Os quatro artigos importados do Medium foram aprovados e estão elegíveis para produção, junto às dez páginas institucionais. Os quatro `foundation-example.md` permanecem draft. A preparação de SEO abaixo substitui o bloqueio global anterior.
 
 Após autorização separada para cada ação externa:
 
@@ -186,3 +186,21 @@ O card do LinkedIn utiliza a URL já confirmada em `config/_default/params.toml`
 `home.css` fornece os componentes compartilhados; `assets/css/contact.css` é carregado somente em Contact e usa escopo `.executive-contact`. O SVG decorativo local está em `layouts/partials/contact/connections.html`; não representa uma rede real. Os links secundários são resolvidos com `site.GetPage` para Projects e Articles no idioma ativo. Não foram adicionados formulário, backend, JavaScript ou serviços externos.
 
 Prévia com drafts: http://localhost:1313/contact/ e http://localhost:1313/pt-br/contact/. Validado no Firefox em 375/430/1440/1920px, com revisão clara/escura, foco por teclado e contraste da paleta. Builds de prévia/produção passaram sem avisos; Após a aprovação posterior, Contact está incluído na saída de produção. As páginas já aprovadas foram comparadas à baseline, sem diferenças além de linhas em branco no head. O LinkedIn bloqueou a consulta automatizada ao perfil (status 999); a URL confirmada e os atributos do link foram conferidos no HTML, sem afirmar validação remota do destino.
+
+
+## SEO e Search Console
+
+A configuração atual permite rastreamento público (`Allow: /`) e informa o índice absoluto `https://ivancl4udio.github.io/sitemap.xml`. O bloqueio global `noindex, nofollow` foi removido. Hugo mantém `buildDrafts = false` e `buildFuture = false`; somente conteúdo aprovado deve ter `draft = false`.
+
+O sitemap nativo multilíngue gera `/sitemap.xml` (índice), `/en/sitemap.xml` e `/pt-br/sitemap.xml`. As URLs inglesas permanecem na raiz. No build validado, os mapas contêm 14 URLs: dez institucionais e quatro artigos. Canonicals apontam para as próprias páginas, e hreflang EN/PT-BR liga somente traduções existentes. `originalUrl` permanece no front matter como referência ao Medium; não substitui canonical. Open Graph continua fornecido pelo tema.
+
+O arquivo recebido `static/googled3ad002689154d52.html` deve ser preservado byte a byte. Hugo o copia para `/googled3ad002689154d52.html`. Depois de publicação manual autorizada, conferir essa URL pública e concluir a verificação HTML no Google Search Console; enviar `https://ivancl4udio.github.io/sitemap.xml`. O build local não verifica propriedade no Google nem comprova indexação. Nenhum analytics ou rastreador foi adicionado.
+
+Validação local após build de produção:
+
+```bash
+python3 scripts/validate-pages-artifact.py public
+python3 scripts/validate-seo.py public
+```
+
+O check `Validate Hugo / build` executa ambos os validadores antes do build de prévia. O validador SEO compara os sitemaps com o conteúdo aprovado, rejeita drafts publicados, canonical incorreto, bloqueio de indexação, hreflang ausente ou inexistente, metadados OG duplicados e alteração do HTML de verificação. Ao aprovar novos artigos, atualizar deliberadamente a expectativa de quatro artigos no script. O workflow de deploy e sua ativação exclusivamente manual não foram alterados. As observações de bloqueio de indexação nas seções históricas acima descrevem entregas anteriores, não a configuração atual.
